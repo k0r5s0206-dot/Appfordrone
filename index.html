@@ -115,6 +115,27 @@ summary{cursor:pointer;color:var(--mute);padding:4px 0}
 .wx-grid .cloud .bar{display:block;flex:1;min-width:30px;height:6px;border-radius:3px;background:var(--line);overflow:hidden}
 .wx-grid .cloud .bar i{display:block;height:100%;width:0;background:var(--teal);transition:width .5s}
 
+/* panneau repliable */
+html{background:#dfe6ec}
+#sheet{padding:0 16px 12px;max-height:74%;overflow:hidden;display:flex;flex-direction:column}
+#grab{position:relative;flex:none;width:100%;height:28px;border:0;background:none;color:var(--mute);cursor:pointer;display:grid;place-items:center}
+#grab .pill{width:44px;height:5px;border-radius:3px;background:var(--line)}
+#grab svg{position:absolute;right:-2px;top:4px;width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
+#sheet[data-open="1"] #grab svg{transform:rotate(180deg)}
+#grab:focus-visible{outline:3px solid #7cc7ff;outline-offset:-3px;border-radius:12px}
+.peek{flex:none;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding-bottom:4px;cursor:pointer}
+.peek .val{margin:0}
+.peek .val b{font-size:2.7rem}
+.peek .val span{font-size:1.1rem}
+#sub{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin:6px 0 0;font-size:.9rem}
+#sheet[data-open="1"] #sub{display:block;-webkit-line-clamp:unset}
+#sheet[data-open="1"][data-why="1"] #sub{display:none}
+#more{display:none;flex:1;min-height:0;overflow:auto;padding-top:4px}
+#sheet[data-open="1"] #more{display:block}
+.meter .rail{position:relative;left:auto;top:auto;bottom:auto;width:100%;height:12px;border-radius:6px}
+.meter .fill{left:0;top:0;bottom:0;right:auto;height:auto;width:var(--h,0%);border-radius:6px;transition:width .6s cubic-bezier(.2,.8,.2,1),background .3s}
+.meter .scale{display:flex;justify-content:space-between;margin-top:5px;font-size:.72rem;color:var(--mute)}
+
 /* alertes */
 #toasts{position:fixed;z-index:1100;left:0;right:0;top:calc(10px + env(safe-area-inset-top,0px));display:flex;flex-direction:column;align-items:center;gap:8px;padding:0 10px;pointer-events:none}
 .toast{pointer-events:auto;width:100%;max-width:440px;display:grid;grid-template-columns:5px 1fr 34px;gap:12px;align-items:start;padding:12px 8px 12px 0;background:var(--ink);border-radius:16px;box-shadow:0 10px 30px rgba(14,27,42,.45);animation:drop .28s cubic-bezier(.2,.8,.2,1)}
@@ -150,19 +171,22 @@ summary{cursor:pointer;color:var(--mute);padding:4px 0}
   </button>
 </div>
 
-<section id="sheet" data-s="wait" aria-live="polite">
-  <div class="row">
-    <div class="gauge" aria-hidden="true">
-      <div class="rail"><div class="fill" id="fill"></div></div>
-      <span class="tick" style="bottom:100%;top:auto;transform:translateY(0)">120</span>
-      <span class="tick" style="bottom:50%">60</span>
-      <span class="tick" style="bottom:0;transform:translateY(0)">0</span>
-    </div>
-    <div>
+<section id="sheet" data-s="wait" data-open="0" data-why="0" aria-live="polite">
+  <button id="grab" type="button" aria-expanded="false" aria-controls="more" aria-label="Afficher ou masquer les détails">
+    <span class="pill"></span>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg>
+  </button>
+  <div class="peek" id="peek">
+    <div class="pk">
       <div class="head"><span class="chip" id="chip">Recherche…</span><span class="src" id="src"></span></div>
-      <div class="val"><b id="num">–</b><span>m</span></div>
       <p id="sub">Touche la carte ou active ta position.</p>
     </div>
+    <div class="val"><b id="num">–</b><span>m</span></div>
+  </div>
+  <div id="more">
+  <div class="meter" aria-hidden="true">
+    <div class="rail"><div class="fill" id="fill"></div></div>
+    <div class="scale"><span>0 m</span><span>60</span><span>120 m</span></div>
   </div>
   <div id="near" hidden><b id="nearT"></b><p id="nearP"></p></div>
   <div id="why"></div>
@@ -171,6 +195,7 @@ summary{cursor:pointer;color:var(--mute);padding:4px 0}
     <div class="lg"><img id="lgImg" alt="Légende officielle des zones de restriction" hidden><p id="lgTxt">Chargement de la légende…</p></div>
   </details>
   <p class="note">Données DGAC / IGN, mises à jour une fois par an. Les restrictions temporaires (événements, périmètres) n’y figurent pas : vérifie le SIA avant chaque vol.</p>
+  </div>
 </section>
 
 <section id="wx" data-s="wait" aria-label="Météo de vol">
@@ -272,7 +297,7 @@ const PLAIN = [
   [/r[ée]serves? naturelles?|parc national|natura 2000|zone prot[ée]g[ée]e|nidif|faune/i, "Espace naturel protégé : le bruit et la présence d’un drone dérangent la faune, surtout à la période de reproduction."],
   [/h[ée]listation|h[ée]liport|h[ôo]pital|samu/i, "Hélistation proche : des hélicoptères, parfois d’urgence, volent bas par ici."],
   [/a[ée]rodrome|a[ée]roport|\bpistes?\b|terrain d.aviation|\bulm\b|planeur/i, "Aérodrome proche : avions et hélicoptères évoluent à basse altitude. Ta hauteur est limitée pour éviter toute collision."],
-  [/agglom[ée]ration|urbain|habit/i, "Zone habitée : on ne survole ni les personnes ni les rassemblements, et la vie privée des habitants doit être respectée."],
+  [/agglom[ée]ration|urbain|habit/i, "En agglomération, le vol est interdit dans l’espace public (rues, places, parcs), sauf cas prévus par l’arrêté « Espace »."],
   [/LF-?R|r[ée]glement[ée]e/i, "Zone réglementée : le vol n’y est possible que sous conditions (hauteur, horaires ou accord de l’autorité)."],
   [/LF-?D|dangereuse|\btirs?\b/i, "Zone dangereuse : des activités à risque (tirs, largages) peuvent y avoir lieu."]
 ];
@@ -288,6 +313,7 @@ function plain(p, lim){
 function showWhy(hits){
   const box = $("why");
   box.textContent = "";
+  sheet.dataset.why = hits.length ? "1" : "0";
   if(!hits.length) return;
   const l = document.createElement("div");
   l.className = "label"; l.textContent = hits.length > 1 ? `Pourquoi · ${hits.length} zones` : "Pourquoi";
@@ -342,6 +368,7 @@ async function check(lat, lon, src){
   const my = ++seq;
   show("wait", "Vérification…", "–", "Interrogation du Géoportail.", 0, src);
   $("why").textContent = "";
+  sheet.dataset.why = "0";
   setNear(null);
   const R = 650;
   const dLat = R / 110540, dLon = R / (111320 * Math.cos(lat * Math.PI / 180));
@@ -552,8 +579,29 @@ $("wxBell").addEventListener("click", async e => {
   if(p !== "granted") toast("wait", "Notifications refusées", "Les alertes resteront affichées dans l’app.");
 });
 
+/* ===== Panneau repliable : toucher ou glisser l'en-tête ===== */
+function setOpen(o){
+  sheet.dataset.open = o ? "1" : "0";
+  $("grab").setAttribute("aria-expanded", o ? "true" : "false");
+}
+const toggleSheet = () => setOpen(sheet.dataset.open !== "1");
+let swipeY = null;
+for(const el of [$("grab"), $("peek")]){
+  el.addEventListener("click", toggleSheet);
+  el.addEventListener("touchstart", e => { swipeY = e.touches[0].clientY; }, {passive:true});
+  el.addEventListener("touchend", e => {
+    if(swipeY === null) return;
+    const dy = e.changedTouches[0].clientY - swipeY;
+    swipeY = null;
+    if(Math.abs(dy) > 30){ setOpen(dy < 0); e.preventDefault(); }  /* évite le clic fantôme après un glissé */
+  }, {passive:false});
+}
+addEventListener("resize", () => map.invalidateSize());
+addEventListener("pageshow", () => map.invalidateSize());
+
 /* ===== Interaction carte ===== */
 map.on("click", e => {
+  setOpen(false);
   if(pin) pin.setLatLng(e.latlng); else pin = L.marker(e.latlng).addTo(map);
   check(e.latlng.lat, e.latlng.lng, "Point touché");
   track(e.latlng.lat, e.latlng.lng);
