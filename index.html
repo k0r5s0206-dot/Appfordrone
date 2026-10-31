@@ -136,6 +136,48 @@ html{background:#dfe6ec}
 .meter .fill{left:0;top:0;bottom:0;right:auto;height:auto;width:var(--h,0%);border-radius:6px;transition:width .6s cubic-bezier(.2,.8,.2,1),background .3s}
 .meter .scale{display:flex;justify-content:space-between;margin-top:5px;font-size:.72rem;color:var(--mute)}
 
+/* Mon drone */
+.wxbat{margin:-4px 0 10px;font-size:.78rem;line-height:1.35;color:var(--mute)}
+#garage{position:fixed;inset:0;z-index:1300;background:var(--ink);overflow:auto;padding:0 16px calc(28px + env(safe-area-inset-bottom,0px))}
+#garage[hidden]{display:none}
+.g-wrap{max-width:560px;margin:0 auto}
+.g-bar{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:calc(14px + env(safe-area-inset-top,0px)) 0 12px;background:var(--ink)}
+.g-bar h2{margin:0;font:700 1.6rem/1 var(--display)}
+#gClose{width:42px;height:42px;border:0;border-radius:50%;background:var(--ink2);color:var(--text);display:grid;place-items:center;cursor:pointer}
+#gClose svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round}
+#gClose:focus-visible,.g-card:focus-visible,.g-link:focus-visible{outline:3px solid #7cc7ff;outline-offset:2px}
+.g-sub{margin:0 0 14px;color:var(--mute);font-size:.92rem;line-height:1.4}
+.g-list{display:grid;gap:10px}
+.g-card{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;text-align:left;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--ink2);color:var(--text);font:inherit;cursor:pointer}
+.g-card[aria-pressed=true]{border-color:var(--teal);box-shadow:inset 0 0 0 1px var(--teal)}
+.g-card b{display:block;font:600 1.08rem/1.2 var(--display)}
+.g-card small{display:block;margin-top:2px;color:var(--mute);font-size:.8rem;line-height:1.3}
+.badge{flex:none;padding:3px 10px;border-radius:999px;background:var(--teal);color:#0b1520;font:600 .85rem/1.3 var(--display)}
+.g-box{margin-top:14px;padding:14px;border-radius:16px;background:var(--ink2)}
+.g-box[hidden]{display:none}
+.g-box h3{margin:0 0 10px;font:600 1.2rem/1.2 var(--display)}
+.g-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border-radius:12px;overflow:hidden}
+.g-stats div{background:var(--ink);padding:8px 10px}
+.g-stats small{display:block;font-size:.72rem;color:var(--mute)}
+.g-stats b{font:600 1.1rem/1.2 var(--display)}
+.g-box p,.g-box li{font-size:.9rem;line-height:1.4;color:#c9d6e2}
+.g-box p{margin:8px 0 0}
+.g-box ul{margin:6px 0 0;padding-left:18px}
+.g-box li{margin:4px 0}
+.g-lab{margin:14px 0 2px;font:600 .78rem/1 var(--display);letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+.g-link{display:inline-block;margin:10px 8px 0 0;padding:10px 14px;border-radius:10px;background:var(--teal);color:#0b1520;font:600 .95rem/1 var(--display);text-decoration:none}
+.g-link.alt{background:none;border:1px solid var(--line);color:var(--text)}
+.g-box p.g-note{font-size:.76rem;color:var(--mute)}
+.g-form{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+.g-form label{display:flex;flex-direction:column;gap:4px;font-size:.78rem;color:var(--mute)}
+.g-form label.wide{grid-column:1/-1}
+.g-form input,.g-form select{font:inherit;font-size:1rem;color:var(--text);background:var(--ink);border:1px solid var(--line);border-radius:10px;padding:9px 10px;min-width:0;width:100%}
+.g-form input:disabled{opacity:.45}
+.g-form input:focus-visible,.g-form select:focus-visible{outline:3px solid #7cc7ff;outline-offset:1px}
+.g-sw{display:flex;align-items:center;gap:10px;margin:8px 0 10px;font-size:.92rem;color:var(--text)}
+.g-sw input{width:20px;height:20px}
+#gManual{margin-top:14px}
+
 /* alertes */
 #toasts{position:fixed;z-index:1100;left:0;right:0;top:calc(10px + env(safe-area-inset-top,0px));display:flex;flex-direction:column;align-items:center;gap:8px;padding:0 10px;pointer-events:none}
 .toast{pointer-events:auto;width:100%;max-width:440px;display:grid;grid-template-columns:5px 1fr 34px;gap:12px;align-items:start;padding:12px 8px 12px 0;background:var(--ink);border-radius:16px;box-shadow:0 10px 30px rgba(14,27,42,.45);animation:drop .28s cubic-bezier(.2,.8,.2,1)}
@@ -168,6 +210,9 @@ html{background:#dfe6ec}
   </button>
   <button class="fab" id="sat" type="button" aria-label="Vue satellite" aria-pressed="false">
     <svg viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/></svg>
+  </button>
+  <button class="fab" id="garageBtn" type="button" aria-label="Mon drone" aria-pressed="false">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><path d="M10.6 10.6 7 7M13.4 10.6 17 7M10.6 13.4 7 17M13.4 13.4 17 17"/><circle cx="5.5" cy="5.5" r="2.5"/><circle cx="18.5" cy="5.5" r="2.5"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
   </button>
 </div>
 
@@ -207,6 +252,7 @@ html{background:#dfe6ec}
   </button>
   <div id="wxBody" hidden>
     <p id="wxWhy">Chargement des prévisions…</p>
+    <p class="wxbat" id="wxBat"></p>
     <div class="wx-grid">
       <div><small>Vent 10 m</small><b id="wxW">–</b><em id="wxDir"></em></div>
       <div><small>Rafales</small><b id="wxG">–</b></div>
@@ -225,6 +271,41 @@ html{background:#dfe6ec}
         Notifications
       </button>
     </div>
+  </div>
+</section>
+
+<section id="garage" role="dialog" aria-modal="true" aria-labelledby="gTitle" hidden>
+  <div class="g-wrap">
+    <div class="g-bar">
+      <h2 id="gTitle">Mon drone</h2>
+      <button id="gClose" type="button" aria-label="Fermer"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <p class="g-sub">Choisis ton drone : l’app adapte les seuils de vent, estime ton autonomie et rappelle tes obligations.</p>
+    <div class="g-list" id="gList"></div>
+
+    <div class="g-box" id="gCustom" hidden>
+      <h3>Mon drone (saisie manuelle)</h3>
+      <div class="g-form">
+        <label class="wide">Nom<input id="cName" type="text" maxlength="40" autocomplete="off"></label>
+        <label>Poids (g)<input id="cG" type="number" inputmode="numeric" min="0" max="25000"></label>
+        <label>Classe UE<select id="cCls"><option value="C0">C0 (&lt; 250 g)</option><option value="C1">C1 (&lt; 900 g)</option><option value="C2">C2</option><option value="other">Non classé</option></select></label>
+        <label>Vent max annoncé (km/h)<input id="cKmh" type="number" inputmode="numeric" min="0" max="200"></label>
+        <label>Autonomie annoncée (min)<input id="cMin" type="number" inputmode="numeric" min="0" max="200"></label>
+      </div>
+    </div>
+
+    <div id="gDetail"></div>
+
+    <details id="gManual">
+      <summary>Régler mes seuils moi-même</summary>
+      <label class="g-sw"><input type="checkbox" id="mOn"> Utiliser mes seuils à la place de ceux du drone</label>
+      <div class="g-form">
+        <label>Attention : vent (km/h)<input id="mWw" type="number" inputmode="numeric" min="0" max="200"></label>
+        <label>Déconseillé : vent (km/h)<input id="mWn" type="number" inputmode="numeric" min="0" max="200"></label>
+        <label>Attention : rafales (km/h)<input id="mGw" type="number" inputmode="numeric" min="0" max="200"></label>
+        <label>Déconseillé : rafales (km/h)<input id="mGn" type="number" inputmode="numeric" min="0" max="200"></label>
+      </div>
+    </details>
   </div>
 </section>
 
@@ -519,6 +600,7 @@ function renderWx(w, rt, h){
   $("wxCloud").textContent = w.cloud == null ? "–" : `${Math.round(w.cloud)} % · ${cloudWord(w.cloud)}`;
   $("wxCloudBar").style.width = (w.cloud || 0) + "%";
   $("wxWhy").textContent = rt.why.length ? "À surveiller : " + rt.why.join(", ") + "." : "Conditions calmes pour un vol à vue.";
+  updateBat(w);
   const box = $("wxHours"); box.textContent = "";
   h.time.forEach((t, i) => {
     const gv = h.wind_gusts_10m[i], g = gv == null ? null : Math.round(gv);
@@ -650,6 +732,191 @@ $("sat").addEventListener("click", e => {
   if(on){ map.removeLayer(plan); ortho.addTo(map).bringToBack(); }
   else { map.removeLayer(ortho); plan.addTo(map).bringToBack(); }
 });
+
+/* ===== Mon drone : catalogue, seuils météo et rappels réglementaires ===== */
+/* Chiffres constructeur (DJI) : poids, vent max annoncé, autonomie en conditions idéales.
+   Classes UE : d'après la liste des drones marqués C0 / C1 / C2. À compléter avec d'autres modèles. */
+const DRONES = [
+  {id:"mini4pro",  name:"DJI Mini 4 Pro",  gLabel:"< 249 g", cls:"C0", ms:10.7, min:34, app:"dji"},
+  {id:"air3",      name:"DJI Air 3",       gLabel:"720 g",   cls:"C1", ms:12,   min:46, app:"dji"},
+  {id:"mavic3pro", name:"DJI Mavic 3 Pro", gLabel:"958 g",   cls:"C2", ms:12,   min:43, app:"dji"}
+];
+const APPS = {dji:{name:"DJI Fly", ios:"https://apps.apple.com/app/id1479649251", web:"https://www.dji.com/dji-fly"}};
+const CLS_LABEL = {C0:"C0", C1:"C1", C2:"C2", other:"Non classé"};
+const RULES = {
+  C0: [
+    "Sous-catégorie A1 : tu peux voler près des personnes, mais jamais au-dessus d’un rassemblement.",
+    "Enregistrement de l’exploitant sur AlphaTango obligatoire si le drone a une caméra (hors jouet) ; le numéro FRA + 13 caractères se colle sur le drone.",
+    "Formation en ligne A1/A3 : recommandée, pas obligatoire. Âge minimum : 14 ans.",
+    "Identification à distance : non obligatoire."
+  ],
+  C1: [
+    "Sous-catégorie A1 : tu peux voler près des personnes, mais jamais au-dessus d’un rassemblement.",
+    "Formation en ligne A1/A3 obligatoire (gratuite, 75 % de bonnes réponses, valable 5 ans).",
+    "Enregistrement de l’exploitant sur AlphaTango obligatoire (numéro FRA + 13 caractères sur le drone).",
+    "Identification à distance et géovigilance obligatoires : le drone les intègre."
+  ],
+  C2: [
+    "Sous-catégorie A2 ou A3 : pas de survol de personnes, 30 m minimum d’elles (5 m en mode basse vitesse).",
+    "Pour voler en A2 : formation A1/A3, formation pratique et examen A2.",
+    "Enregistrement AlphaTango, identification à distance et géovigilance obligatoires."
+  ],
+  other: [
+    "Drone non classé : les règles dépendent du poids et de la date de mise sur le marché (catégorie ouverte A1/A3).",
+    "Enregistrement sur AlphaTango obligatoire dès 250 g, ou si le drone a une caméra.",
+    "Formation en ligne A1/A3 obligatoire au-delà de 250 g."
+  ]
+};
+
+const el = (tag, cls, text) => { const n = document.createElement(tag); if(cls) n.className = cls; if(text != null) n.textContent = text; return n; };
+let cfg = {drone:null, custom:{name:"Mon drone", g:500, cls:"other", kmh:36, min:25}, manual:false, wind:{warn:25, no:38}, gust:{warn:32, no:45}};
+try{
+  const j = JSON.parse(localStorage.getItem("zd_cfg") || "null");
+  if(j) cfg = {...cfg, ...j, custom:{...cfg.custom, ...(j.custom || {})}, wind:{...cfg.wind, ...(j.wind || {})}, gust:{...cfg.gust, ...(j.gust || {})}};
+}catch(e){}
+const saveCfg = () => { try{ localStorage.setItem("zd_cfg", JSON.stringify(cfg)); }catch(e){} };
+
+function curDrone(){
+  if(cfg.drone === "custom"){
+    const c = cfg.custom;
+    return {id:"custom", name:c.name || "Mon drone", gLabel:+c.g > 0 ? Math.round(c.g) + " g" : "–", cls:c.cls, kmh:Math.round(+c.kmh) || 0, min:Math.round(+c.min) || 0, app:null};
+  }
+  const d = DRONES.find(x => x.id === cfg.drone);
+  return d ? {...d, kmh:Math.floor(d.ms * 3.6)} : null;
+}
+
+/* Seuils automatiques : vent moyen 60 % / 80 % du vent max annoncé, rafales 75 % / 100 %. */
+let refTimer = null;
+function applyCfg(refresh){
+  const d = curDrone();
+  if(cfg.manual){ Object.assign(WIND, cfg.wind); Object.assign(GUST, cfg.gust); }
+  else if(d && d.kmh > 0){
+    Object.assign(WIND, {warn:Math.round(d.kmh * .6), no:Math.round(d.kmh * .8)});
+    Object.assign(GUST, {warn:Math.round(d.kmh * .75), no:d.kmh});
+  } else { Object.assign(WIND, {warn:25, no:38}); Object.assign(GUST, {warn:32, no:45}); }
+  $("garageBtn").setAttribute("aria-pressed", d ? "true" : "false");
+  if(refresh && wxPrev){
+    const {lat, lon} = wxPrev.w;
+    clearTimeout(refTimer);
+    refTimer = setTimeout(() => { wxPrev = null; weather(lat, lon); }, 500);  /* wxPrev = null : pas d'alerte « conditions changées » */
+  }
+}
+
+/* ligne sous la météo : seuils utilisés + autonomie utile */
+function updateBat(w){
+  const d = curDrone(), box = $("wxBat");
+  if(!d && !cfg.manual){ box.textContent = "Seuils par défaut. Choisis ton drone (bouton en haut à droite) pour les adapter."; return; }
+  let t = (cfg.manual ? "Seuils personnalisés" : "Seuils " + d.name) + ` : vent ${WIND.warn} / ${WIND.no} km/h, rafales ${GUST.warn} / ${GUST.no}.`;
+  if(d && d.min > 0 && d.kmh > 0){
+    const u = Math.round(d.min * .8 * (1 - .25 * Math.min(1, w.wind / d.kmh)));
+    t += ` Autonomie utile ≈ ${u} min (marge de 20 % et vent pris en compte).`;
+  }
+  box.textContent = t;
+}
+
+function renderList(){
+  const box = $("gList");
+  box.textContent = "";
+  const add = (id, name, sub, badge) => {
+    const b = el("button", "g-card");
+    b.type = "button";
+    b.setAttribute("aria-pressed", cfg.drone === id ? "true" : "false");
+    const t = el("span");
+    t.append(el("b", null, name), el("small", null, sub));
+    b.appendChild(t);
+    if(badge) b.appendChild(el("span", "badge", badge));
+    b.addEventListener("click", () => {
+      cfg.drone = cfg.drone === id ? null : id;
+      saveCfg(); applyCfg(true); renderGarage();
+    });
+    box.appendChild(b);
+  };
+  DRONES.forEach(d => add(d.id, d.name, `${d.gLabel} · ${d.min} min · vent max ${Math.floor(d.ms * 3.6)} km/h`, d.cls));
+  const c = cfg.custom, on = cfg.drone === "custom";
+  add("custom", on ? (c.name || "Mon drone") : "Autre drone", on ? `${+c.g > 0 ? Math.round(c.g) + " g · " : ""}${+c.min > 0 ? Math.round(c.min) + " min · " : ""}vent max ${Math.round(+c.kmh) || "–"} km/h` : "Autel, Parrot, drone DIY… : saisie manuelle", on ? CLS_LABEL[c.cls] : "");
+}
+
+function renderDetail(){
+  const box = $("gDetail");
+  box.textContent = "";
+  const d = curDrone();
+  if(!d) return;
+  const b = el("div", "g-box");
+  b.appendChild(el("h3", null, d.name));
+  const st = el("div", "g-stats");
+  [["Poids", d.gLabel], ["Classe UE", CLS_LABEL[d.cls]], ["Vent max annoncé", d.kmh > 0 ? d.kmh + " km/h" : "–"], ["Autonomie annoncée", d.min > 0 ? d.min + " min" : "–"]]
+    .forEach(([k, v]) => { const c = el("div"); c.append(el("small", null, k), el("b", null, v)); st.appendChild(c); });
+  b.appendChild(st);
+
+  b.appendChild(el("div", "g-lab", "Seuils météo utilisés"));
+  b.appendChild(el("p", null, `Attention dès ${WIND.warn} km/h de vent ou ${GUST.warn} km/h en rafales. Déconseillé dès ${WIND.no} / ${GUST.no} km/h.`));
+  b.appendChild(el("p", "g-note", cfg.manual ? "Tu utilises tes propres seuils." : "Calcul automatique : 60 % et 80 % du vent max annoncé pour le vent moyen, 75 % et 100 % pour les rafales. Le chiffre du constructeur n’est pas une limite sûre : garde de la marge."));
+
+  b.appendChild(el("div", "g-lab", "Tes obligations en France"));
+  const ul = el("ul");
+  (RULES[d.cls] || RULES.other).forEach(t => ul.appendChild(el("li", null, t)));
+  b.appendChild(ul);
+  b.appendChild(el("p", "g-note", "Résumé indicatif : la référence reste la DGAC (AlphaTango)."));
+  const at = el("a", "g-link alt", "Démarches AlphaTango");
+  at.href = "https://www.ecologie.gouv.fr/alphatango"; at.target = "_blank"; at.rel = "noopener";
+  b.appendChild(at);
+  const app = d.app && APPS[d.app];
+  if(app){
+    const ios = /iPhone|iPad|iPod/.test(navigator.userAgent);
+    const a = el("a", "g-link", "Ouvrir " + app.name);
+    a.href = ios ? app.ios : app.web; a.target = "_blank"; a.rel = "noopener";
+    b.appendChild(a);
+    b.appendChild(el("p", "g-note", ios ? "Ouvre la fiche de l’app : touche « Ouvrir »." : "Ouvre la page de téléchargement officielle."));
+  }
+  box.appendChild(b);
+}
+
+function renderGarage(){
+  renderList();
+  const custom = cfg.drone === "custom";
+  $("gCustom").hidden = !custom;
+  if(custom){
+    const c = cfg.custom;
+    $("cName").value = c.name; $("cG").value = c.g; $("cCls").value = c.cls; $("cKmh").value = c.kmh; $("cMin").value = c.min;
+  }
+  renderDetail();
+  $("mOn").checked = cfg.manual;
+  $("mWw").value = cfg.manual ? cfg.wind.warn : WIND.warn;  $("mWn").value = cfg.manual ? cfg.wind.no : WIND.no;
+  $("mGw").value = cfg.manual ? cfg.gust.warn : GUST.warn;  $("mGn").value = cfg.manual ? cfg.gust.no : GUST.no;
+  ["mWw", "mWn", "mGw", "mGn"].forEach(id => $(id).disabled = !cfg.manual);
+}
+
+const numOf = id => parseFloat($(id).value);
+function onCustom(){
+  const c = cfg.custom;
+  c.name = $("cName").value.trim().slice(0, 40);
+  c.g = Math.max(0, numOf("cG") || 0); c.cls = $("cCls").value;
+  c.kmh = Math.max(0, numOf("cKmh") || 0); c.min = Math.max(0, numOf("cMin") || 0);
+  saveCfg(); applyCfg(true); renderList(); renderDetail();
+}
+["cName", "cG", "cCls", "cKmh", "cMin"].forEach(id => $(id).addEventListener("input", onCustom));
+
+function onManual(){
+  if($("mOn").checked && !cfg.manual){   /* on part des seuils actuellement utilisés */
+    $("mWw").value = WIND.warn; $("mWn").value = WIND.no; $("mGw").value = GUST.warn; $("mGn").value = GUST.no;
+  }
+  cfg.manual = $("mOn").checked;
+  const v = id => Math.max(0, Math.min(200, Math.round(numOf(id) || 0)));
+  cfg.wind = {warn:v("mWw"), no:v("mWn")};
+  cfg.gust = {warn:v("mGw"), no:v("mGn")};
+  if(cfg.wind.no < cfg.wind.warn) cfg.wind.no = cfg.wind.warn;
+  if(cfg.gust.no < cfg.gust.warn) cfg.gust.no = cfg.gust.warn;
+  ["mWw", "mWn", "mGw", "mGn"].forEach(id => $(id).disabled = !cfg.manual);
+  saveCfg(); applyCfg(true); renderDetail();
+}
+["mOn", "mWw", "mWn", "mGw", "mGn"].forEach(id => $(id).addEventListener("input", onManual));
+
+function openGarage(){ $("garage").hidden = false; renderGarage(); $("gClose").focus(); }
+function closeGarage(){ $("garage").hidden = true; $("garageBtn").focus(); }
+$("garageBtn").addEventListener("click", openGarage);
+$("gClose").addEventListener("click", closeGarage);
+addEventListener("keydown", e => { if(e.key === "Escape" && !$("garage").hidden) closeGarage(); });
+applyCfg(false);
 
 startGeo();
 </script>
